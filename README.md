@@ -30,6 +30,14 @@ const message = Reader.readBuffer(buffer);
 console.log(message);
 ```
 
+### Récupérer la versio du Protocol
+
+```javascript
+const {VERSION} = require('@rblanchet/d2-protocol');
+
+console.log(VERSION); // output: 2.61.7.8
+```
+
 ## Crédits
 
 [Vicfou-dev](https://github.com/Vicfou-dev)

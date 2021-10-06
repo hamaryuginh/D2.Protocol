@@ -6,14 +6,14 @@ const path =  require('path');
 const PLATFORM = 'linux';
 const ANKAMA_CDN = 'https://launcher.cdn.ankama.com';
 
-const downloadInvoker = async (hash) => {
+const download = async (hash, path) => {
     const response = await axios({
         method: 'GET',
         url: `${ANKAMA_CDN}/dofus/hashes/${hash.substring(0, 2)}/${hash}`,
         responseType: 'arraybuffer',
     });
 
-    await fs.promises.writeFile(`/DofusInvoker.swf`, response.data);
+    await fs.promises.writeFile(path, response.data);
 }
 
 const spawnProcess = (command, args) => new Promise((resolve, reject) => {
@@ -36,7 +36,7 @@ const spawnProcess = (command, args) => new Promise((resolve, reject) => {
     console.log(`   - Hash disponible : ${hash}`);
     console.log(`   - Récupération du fichier DofusInvoker.swf via le CDN ${ANKAMA_CDN}`);
     const files = (await axios.get(`${ANKAMA_CDN}/dofus/releases/main/${PLATFORM}/${hash}.json`)).data;
-    await downloadInvoker(files.main.files['DofusInvoker.swf'].hash);
+    await download(files.main.files['DofusInvoker.swf'].hash, '/DofusInvoker.swf');
     console.log(`   - Fichier DofusInvoker.swf récupéré et placé à la racine du Docker "/DofusInvoker.swf"`);
     // Décompilation du DofusInvoker.swf
     console.log('-> [JPEXS] Décompilation des fichiers AS3');
@@ -59,6 +59,12 @@ const spawnProcess = (command, args) => new Promise((resolve, reject) => {
     }
     console.log('   - Copie du fichier de protocol dans l\'application');
     fs.copyFile('/D2.ProtocolBuilder/build/protocol.js', `${path.resolve(__dirname)}/../lib/protocol.js`, (err) => {
+        if (err) throw err;
+    });
+    // Récupération de la version du Protocol
+    console.log('-> [Version] Récupération de la version du Protocol');
+    await download(files.main.files['VERSION'].hash, '/VERSION');
+    fs.copyFile('/VERSION', `${path.resolve(__dirname)}/../VERSION`, (err) => {
         if (err) throw err;
     });
 })();
