@@ -5,4 +5,4 @@ services:
     build: .
     tty: true # Conserve l'etat "running"
     volumes: 
-      - .:/d2protocol
+      - .:/D2.Protocol
