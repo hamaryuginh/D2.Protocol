@@ -8,8 +8,16 @@ Le protocole est construit par la librairie [D2.ProtocolBuilder](https://github.
 
 ## Installation
 
+La version du paquet dépend de la version de Dofus, par exemple :
+
+* Dofus est en version 2.61.7.8, le paquet sera alors en v2.61.7 (@rblanchet/d2-protocol@2.61.7)
+
 ```shell
+# Dernière version
 npm install @rblanchet/d2-protocol
+
+# Une version en particulier
+npm install @rblanchet/d2-protocol@2.61.7
 ```
 
 ## Utilisation
@@ -30,7 +38,7 @@ const message = Reader.readBuffer(buffer);
 console.log(message);
 ```
 
-### Récupérer la versio du Protocol
+### Récupérer la version du Protocol
 
 ```javascript
 const {VERSION} = require('@rblanchet/d2-protocol');
