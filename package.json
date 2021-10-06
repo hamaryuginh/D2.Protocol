@@ -1,6 +1,6 @@
 {
   "name": "@rblanchet/d2-protocol",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A Javascript library for Dofus 2.x Protocol",
   "main": "index.js",
   "scripts": {
