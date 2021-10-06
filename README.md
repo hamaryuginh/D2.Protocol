@@ -7,5 +7,5 @@ D2.Protocol est une librairie Javascript offrant des outils de lecture et écrit
 ## Installation
 
 ```bash
-npm install d2-protocol
+npm install @rblanchet/d2-protocol
 ```
