@@ -9,8 +9,8 @@ module.exports = {
      * @returns {Object}
      */
     readBuffer: (buffer) => {
-        buffer = Protocol.CustomDataWrapper(buffer);
+        wrapper = new Protocol.CustomDataWrapper(buffer);
         
-        return Protocol.MessageReceiver.parse(buffer);
+        return Protocol.MessageReceiver.parse(wrapper);
     },
 };
