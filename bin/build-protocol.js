@@ -16,6 +16,18 @@ const downloadInvoker = async (hash) => {
     await fs.promises.writeFile(`/DofusInvoker.swf`, response.data);
 }
 
+const spawnProcess = (command, args) => new Promise((resolve, reject) => {
+    const process = spawn(command, args, {shell:true});
+    process.stdout.on('data', data => {
+        console.log(`   - ${data}`);
+    });
+    process.on('error', (err) => {
+        reject(err);
+    });
+
+    process.on('close', resolve);
+});
+
 (async () => {
     // Récupération de l'Invoker
     console.log('-> [Invoker] Récupération du dernier Invoker disponible');
@@ -29,49 +41,19 @@ const downloadInvoker = async (hash) => {
     // Décompilation du DofusInvoker.swf
     console.log('-> [JPEXS] Décompilation des fichiers AS3');
     try {
-        await (() => new Promise((resolve, reject) => {
-            const ffdec = spawn('/ffdec/ffdec.sh', ['-config "parallelSpeedUp=0"', '-selectclass "com.ankamagames.dofus.network.++"', '-export script /D2.ProtocolBuilder/tmp/protocol/as /DofusInvoker.swf'], {shell:true});
-            ffdec.stdout.on('data', data => {
-                console.log(`   - ${data}`);
-            });
-            ffdec.on('error', (err) => {
-                reject(err);
-            });
-    
-            ffdec.on('close', resolve);
-        }))();
+        await spawnProcess('/ffdec/ffdec.sh', ['-config "parallelSpeedUp=0"', '-selectclass "com.ankamagames.dofus.network.++"', '-export script /D2.ProtocolBuilder/tmp/protocol/as /DofusInvoker.swf']);
     } catch (err) {
         throw err;
     }
     // Transpilation via D2.ProtocolBuilder
     console.log('-> [Protocol Builder] Transpilation des AS3 en JS');
     try {
-        await (() => new Promise((resolve, reject) => {
-            const ffdec = spawn('npm', ['--prefix /D2.ProtocolBuilder', 'run build'], {shell:true});
-            ffdec.stdout.on('data', data => {
-                console.log(`${data}`);
-            });
-            ffdec.on('error', (err) => {
-                reject(err);
-            });
-    
-            ffdec.on('close', resolve);
-        }))();
+        await spawnProcess('npm', ['--prefix /D2.ProtocolBuilder', 'run build']);
     } catch (err) {
         throw err;
     }
     try {
-        await (() => new Promise((resolve, reject) => {
-            const ffdec = spawn('npm', ['--prefix /D2.ProtocolBuilder', 'run compile'], {shell:true});
-            ffdec.stdout.on('data', data => {
-                console.log(`${data}`);
-            });
-            ffdec.on('error', (err) => {
-                reject(err);
-            });
-    
-            ffdec.on('close', resolve);
-        }))();
+        await spawnProcess('npm', ['--prefix /D2.ProtocolBuilder', 'run compile']);
     } catch (err) {
         throw err;
     }
