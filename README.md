@@ -10,7 +10,7 @@ Le protocole est construit par la librairie [D2.ProtocolBuilder](https://github.
 
 La version du paquet dépend de la version de Dofus, par exemple :
 
-* Dofus est en version 2.61.7.8, le paquet sera alors en v2.61.7 (@rblanchet/d2-protocol@2.61.7)
+- Dofus est en version 2.61.7.8, le paquet sera alors en v2.61.7 (@rblanchet/d2-protocol@2.61.7)
 
 ```shell
 # Dernière version
@@ -25,11 +25,11 @@ npm install @rblanchet/d2-protocol@2.61.7
 ### Lire un Buffer provenant de Dofus
 
 ```javascript
-const {Reader} = require('@rblanchet/d2-protocol');
+const { Reader } = require("@rblanchet/d2-protocol");
 
 /**
  * Provient de Dofus, peut-être fourni par un Socket ou un MITM.
- * 
+ *
  * @param {Buffer}
  */
 buffer;
@@ -41,9 +41,26 @@ console.log(message);
 ### Récupérer la version du Protocol
 
 ```javascript
-const {VERSION} = require('@rblanchet/d2-protocol');
+const { VERSION } = require("@rblanchet/d2-protocol");
 
 console.log(VERSION); // output: 2.61.7.8
+```
+
+## Utilisation (Version Fab)
+
+Copier la dernière version du fichier `DofusInvoker.swf` dans `<projectDir>/swf/`.
+Se trouve Dans `C:\Users\<user>\AppData\Local\Ankama\Dofus`
+
+Sur la machine hôte :
+
+```sh
+docker run --rm --name d2protocol -v .:/D2.Protocol -it d2protocol-d2protocol bash
+```
+
+Dans le conteneur :
+
+```sh
+node bin/build-protocol.js --swf=swf/DofusInvoker.swf --client-version=2.68.3.3
 ```
 
 ## Crédits

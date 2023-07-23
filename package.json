@@ -1,6 +1,6 @@
 {
   "name": "@rblanchet/d2-protocol",
-  "version": "2.61.9",
+  "version": "2.68.3",
   "description": "A Javascript library for Dofus 2.x Protocol",
   "main": "index.js",
   "scripts": {
@@ -19,6 +19,7 @@
   "homepage": "https://github.com/RBlanchet/D2.Protocol#readme",
   "dependencies": {
     "axios": "^0.22.0",
-    "bytearray-node": "^3.3.5"
+    "bytearray-node": "^3.3.5",
+    "yargs": "^17.7.2"
   }
 }
